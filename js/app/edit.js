@@ -1,5 +1,10 @@
 /** Editor page renderer.
  */
+var canvasBuffer = require('electron-canvas-to-buffer')
+var fs = require('fs')
+var path = require('path')
+var shell = require('shelljs');
+
 define(['../image/layer',
         '../helper/segment-annotator',
         '../helper/util'],
@@ -209,13 +214,30 @@ function(Layer, Annotator, util) {
         exportButton = document.createElement("input"),
         manualText;
     exportButton.type = "submit";
-    exportButton.value = "export";
+    exportButton.value = "Save and Next";
     exportButton.className = "edit-sidebar-submit";
     exportButton.addEventListener("click", function () {
-      var filename = (data.annotationURLs) ?
-          data.annotationURLs[params.id].split(/[\\/]/).pop() :
-          params.id + ".png";
-      downloadURI(annotator.export(), filename);
+      annotator.layers.annotation.setAlpha(255);
+      annotator.layers.annotation.render();
+      var buffer = canvasBuffer(annotator.layers.annotation.canvas, 'image/png')
+
+      annotator.layers.annotation.setAlpha(255);
+      annotator.layers.annotation.render();
+
+      // write canvas to file
+
+      
+      shell.mkdir('-p', path.dirname(annotator.annotationURL));
+      fs.writeFile(annotator.annotationURL, buffer, function (err) {
+        if (err) { throw err }
+
+
+      })
+      next_location = util.makeQueryParams(params, {
+        id: parseInt(params.id) + 1.0
+      });
+      window.location.href = next_location;
+
     });
     spacer1.className = "edit-sidebar-spacer";
     undoButton.className = "edit-sidebar-button";
@@ -453,14 +475,14 @@ function(Layer, Annotator, util) {
     var id = parseInt(params.id, 10);
     if (isNaN(id))
       throw("Invalid id");
-    var annotator = new Annotator(data.imageURLs[id], {
+    var annotator = new Annotator(data.imageURLs[id], data.annotationURLs[id], {
           width: params.width,
           height: params.height,
           colormap: data.colormap,
           superpixelOptions: { method: "slic", regionSize: 25 },
           onload: function () {
             if (data.annotationURLs)
-              annotator.import(data.annotationURLs[id]);
+              annotator.import(data.annotationURLs[id], params);
             annotator.hide("boundary");
             boundaryFlash();
           },

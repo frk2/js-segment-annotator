@@ -17,11 +17,12 @@ define(['../image/layer',
         '../image/morph'],
 function (Layer, segmentation, morph) {
   // Segment annotator.
-  function Annotator(imageURL, options) {
+  function Annotator(imageURL, annotationURL, options) {
     options = options || {};
     if (typeof imageURL !== "string") {
       throw "Invalid imageURL";
     }
+    this.annotationURL = annotationURL;
     this.colormap = options.colormap || [[255, 255, 255], [255, 0, 0]];
     this.boundaryColor = options.boundaryColor || [255, 255, 255];
     this.boundaryAlpha = options.boundaryAlpha || 127;
@@ -146,6 +147,8 @@ function (Layer, segmentation, morph) {
     options = options || {};
     var annotator = this;
     this.layers.annotation.load(annotationURL, {
+      width: options.width,
+      height: options.height,
       onload: function () {
         if (options.grayscale)
           this.gray2index();
@@ -172,6 +175,7 @@ function (Layer, segmentation, morph) {
   Annotator.prototype.export = function () {
     this.layers.annotation.setAlpha(255);
     this.layers.annotation.render();
+
     var data = this.layers.annotation.canvas.toDataURL();
     this.layers.annotation.setAlpha(0);
     this.layers.annotation.render();

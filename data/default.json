@@ -1,0 +1,14 @@
+{
+  "labels": [
+    "background",
+    "lane"
+  ],
+  
+  "size": {
+    "width": "640",
+    "height": "480"
+  },
+
+  "annotationURLs": [
+  ]
+}

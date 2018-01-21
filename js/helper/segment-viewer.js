@@ -17,6 +17,7 @@ define(['../image/layer'], function(Layer) {
     this.labels = options.labels;
     this._createLayers(imageURL, annotationURL, options);
     var viewer = this;
+    console.log(options)
     this.layers.image.load(imageURL, {
       width: options.width,
       height: options.height,

@@ -1,11 +1,15 @@
 /* Main page dispatcher.
 */
+const electron = require('electron')
+const remote = electron.remote
+const mainWindow = remote.getCurrentWindow()
+
 requirejs(['app/index',
            'app/edit',
            'helper/colormap',
            'helper/util'],
 function(indexPage, editPage, colormap, util) {
-  var dataURL = "data/example.json",  // Change this to another dataset.
+  var dataURL = "data/default.json",  // Change this to another dataset.
       params = util.getQueryParams();
 
   // Create a colormap for display. The following is an example.
@@ -22,10 +26,20 @@ function(indexPage, editPage, colormap, util) {
       }));
   }
 
+  function getAnnotationURLs(directory, all_paths, add_path) {
+    var path = path || require('path');
+    return all_paths.map(function(this_path) {
+      return path.join(path.dirname(directory), add_path, path.basename(directory), path.relative(directory, this_path));
+    })
+  }
   // Load dataset before rendering a view.
-  function renderPage(renderer) {
+  function renderPage(renderer) {   
     util.requestJSON(dataURL, function(data) {
+      data.imageURLs = mainWindow.file_list;
+      data.annotationURLs = getAnnotationURLs(mainWindow.directory, mainWindow.file_list, 'annotated');
       data.colormap = createColormap(params.label, data.labels);
+      params.width = data.size.width;
+      params.height = data.size.height;
       renderer(data, params);
     });
   }
@@ -38,7 +52,8 @@ function(indexPage, editPage, colormap, util) {
       renderPage(editPage);
       break;
     default:
-      params.view = "index";
+      params.view = "edit";
+      params.id = 0;
       window.location = util.makeQueryParams(params);
       break;
   }

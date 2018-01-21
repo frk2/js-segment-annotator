@@ -1,0 +1,9 @@
+{
+  "name": "js-segment-annotator",
+  "version": "0.1",
+  "main": "app.js",
+  "dependencies": {
+    "electron-canvas-to-buffer": "^2.0.0",
+    "shelljs": "^0.8.1"
+  }
+}

@@ -36,8 +36,8 @@ function(Pagination, Viewer, util) {
     document.body.appendChild(createLabelOptions(params, data.labels));
     for (var i = pagination.begin(); i < pagination.end(); ++i) {
       var viewer = new Viewer(data.imageURLs[i], data.annotationURLs[i], {
-                                width: (params.width || 240),
-                                height: (params.height || 320),
+                                width: (params.width || 480),
+                                height: (params.height || 640),
                                 colormap: data.colormap,
                                 labels: data.labels,
                                 excludedLegends: [0],
