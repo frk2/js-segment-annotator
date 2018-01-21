@@ -1,6 +1,37 @@
-JS Segment Annotator
-====================
+JS Segment Annotator Electron edition
+=====================================
+This is a electronified version of the excellent Segment annotator from  https://github.com/kyamagu/js-segment-annotator
 
+The main aim is to make mass annotation fast and convenient.
+
+The advantages are:
+
+* Directory chooser so no messing with config files, start it up and pick the image directory
+* Actually writes the annotated file directly to disk (cuz electron). Files are saved under a 'annotated' directory which is created just above the selected directory. Saved files maintain their original path for simple crossferencing
+* "Save and next" feature.
+* added a new parameter "size" which resizes the annotation layer to whatever you want. Really nice for small images!
+
+Everything else works exactly as in the parent repo. Enjoy!
+
+To launch:
+
+```
+npm install
+```
+
+if you installed electron globally earlier:
+```
+electron .
+```
+
+if not:
+```
+./node_modules/.bin/electron .
+```
+
+Enjoy!
+
+----
 Javascript image annotation tool based on image segmentation.
 
  * Label image regions with mouse.
