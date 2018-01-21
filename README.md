@@ -32,11 +32,12 @@ if not:
 ### Assumed directory structure
 Its assumed that the directory you select ONLY has images under a single 'data' directory. The annotator will create a 'annotated' directory under the directory you select.
 
+```
 +[directory selected] /
 --+ [data] /
 ----+ (has all your images)
 --+ [annotated] / (created!)
-
+```
 
 Enjoy!
 
