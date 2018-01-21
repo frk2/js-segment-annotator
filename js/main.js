@@ -29,7 +29,7 @@ function(indexPage, editPage, colormap, util) {
   function getAnnotationURLs(directory, all_paths, add_path) {
     var path = path || require('path');
     return all_paths.map(function(this_path) {
-      return path.join(path.dirname(directory), add_path, path.basename(directory), path.relative(directory, this_path));
+      return path.join(directory, add_path, path.relative(path.join(directory, 'data'), this_path));
     })
   }
   // Load dataset before rendering a view.
