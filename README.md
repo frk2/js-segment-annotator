@@ -13,6 +13,24 @@ The advantages are:
 
 Everything else works exactly as in the parent repo. Enjoy!
 
+To launch:
+
+```
+npm install
+```
+
+if you installed electron globally earlier:
+```
+electron .
+```
+
+if not:
+```
+./node_modules/.bin/electron .
+```
+
+Enjoy!
+
 ----
 Javascript image annotation tool based on image segmentation.
 
