@@ -13,7 +13,7 @@ The advantages are:
 
 Everything else works exactly as in the parent repo. Enjoy!
 
-============================================================
+----
 Javascript image annotation tool based on image segmentation.
 
  * Label image regions with mouse.
